@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+#include <mutex>
+#include <thread>
+using namespace std;
+
+class DiagnosticManager 
+{
+private:
+   
+   DiagnosticManager() {
+       cout << "DiagnosticManager instance is created" << endl;
+   }
+   
+   static DiagnosticManager* instance;
+   
+   static mutex mtx;
+
+public:
+  
+   static DiagnosticManager* getInstance() {
+       
+       lock_guard<mutex> lock(mtx);
+       
+       if (instance == nullptr) {
+           instance = new DiagnosticManager();
+       }
+     
+       return instance;
+   }
+   
+   void printInfo() {
+       cout << "DiagnosticManager method is called" << endl;
+   }
+};
+
+DiagnosticManager* DiagnosticManager::instance = nullptr;
+mutex DiagnosticManager::mtx;
+
+int main()
+{
+   
+   DiagnosticManager* manager = DiagnosticManager::getInstance();
+   
+   manager->printInfo();
+   return 0;
+}
+
+output:
+DiagnosticManager instance is created
+DiagnosticManager method is called
