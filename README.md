@@ -1,1 +1,1 @@
-# project-git
+# git-pratice
